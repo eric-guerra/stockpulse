@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/stockpulse?serverTimezone=UTC}
+    username: ${DB_USER:stockpulse}
+    password: ${DB_PASSWORD:stockpulse}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.type.preferred_instant_jdbc_type: TIMESTAMP
+      hibernate.jdbc.time_zone: UTC
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    listener:
+      simple:
+        acknowledge-mode: auto
+        default-requeue-rejected: true
+        retry:
+          enabled: true
+          max-attempts: 5
+          initial-interval: 200ms
+          multiplier: 2
+
+stockpulse:
+  hold-duration: PT2H
+  cache-ttl: PT10M
+  expiry-sweep-ms: 30000
